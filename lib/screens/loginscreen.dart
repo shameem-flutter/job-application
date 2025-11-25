@@ -1,0 +1,283 @@
+import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
+import 'package:job_application/constants/colors.dart';
+import 'package:job_application/screens/signupscreen.dart';
+import 'package:job_application/widgets/textformfield.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _emailCtrl = TextEditingController();
+  final _passCtrl = TextEditingController();
+  bool _obscure = true;
+
+  static const _hint = Color(0xFF9CA3AF);
+  static const _titleDark = Color(0xFF111827);
+
+  bool get isValid {
+    final email = _emailCtrl.text.trim();
+    final pass = _passCtrl.text.trim();
+    final emailOk = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(email);
+    return emailOk && pass.isNotEmpty;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC),
+
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            child: Column(
+              children: [
+                // LOGO
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 22,
+                      width: 22,
+                      decoration: const BoxDecoration(
+                        color: secondaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Brand(Brands.mini_cooper),
+                    ),
+                    const SizedBox(width: 10),
+                    const Text(
+                      "Job Application",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        color: _titleDark,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 6),
+
+                const Text(
+                  "Welcome back!",
+                  style: TextStyle(color: Color(0xFF6B7280), fontSize: 15),
+                ),
+
+                const SizedBox(height: 36),
+
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Your email address",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: _titleDark,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 5),
+
+                CustomInputField(
+                  controller: _emailCtrl,
+                  hint: "name@example.com",
+                  keyboardType: TextInputType.emailAddress,
+                ),
+
+                const SizedBox(height: 22),
+
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Password",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: dark,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                CustomInputField(
+                  controller: _passCtrl,
+                  hint: "Enter your password",
+                  obscure: _obscure,
+                  suffix: IconButton(
+                    onPressed: () => setState(() {
+                      _obscure = !_obscure;
+                    }),
+                    icon: Icon(
+                      _obscure ? Icons.visibility : Icons.visibility_off,
+                      color: _hint,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      "Forgot password?",
+                      style: TextStyle(
+                        color: secondaryColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                // LOGIN BUTTON
+                _buildContinueButton(),
+
+                const SizedBox(height: 22),
+
+                // Divider
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(height: 1, color: Color(0xFFE5E7EB)),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      child: Text("or", style: TextStyle(color: _hint)),
+                    ),
+                    Expanded(
+                      child: Container(height: 1, color: Color(0xFFE5E7EB)),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 18),
+
+                _SocialButton(
+                  label: "Continue with Google",
+                  leading: Brand(Brands.google, size: 20),
+                  onTap: () {},
+                ),
+
+                const SizedBox(height: 12),
+
+                _SocialButton(
+                  label: "Continue with Apple",
+                  leading: Brand(Brands.apple_logo, size: 20),
+                  onTap: () {},
+                ),
+
+                const SizedBox(height: 28),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Don’t have an account?",
+                      style: TextStyle(color: _hint),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SignupScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "Sign up",
+                        style: TextStyle(
+                          color: secondaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContinueButton() {
+    final active = isValid;
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      height: 56,
+      decoration: BoxDecoration(
+        color: active ? green : const Color(0xFFE5E7EB),
+        borderRadius: BorderRadius.circular(28),
+      ),
+      child: TextButton(
+        onPressed: active ? () {} : null,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              "Continue",
+              style: TextStyle(
+                color: _titleDark,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SocialButton extends StatelessWidget {
+  final String label;
+  final Widget leading;
+  final VoidCallback? onTap;
+  const _SocialButton({required this.label, required this.leading, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 56,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
+        color: Colors.white,
+      ),
+      child: TextButton(
+        onPressed: onTap,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            leading,
+            const SizedBox(width: 12),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: dark,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

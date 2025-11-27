@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:job_application/constants/colors.dart';
+import 'package:job_application/screens/homescreen.dart';
 import 'package:job_application/screens/signupscreen.dart';
 import 'package:job_application/widgets/textformfield.dart';
 
@@ -14,10 +15,17 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
-  bool _obscure = true;
+  bool _obsecure = true;
 
   static const _hint = Color(0xFF9CA3AF);
   static const _titleDark = Color(0xFF111827);
+
+  @override
+  void initState() {
+    _emailCtrl.addListener(() => setState(() {}));
+    _passCtrl.addListener(() => setState(() {}));
+    super.initState();
+  }
 
   bool get isValid {
     final email = _emailCtrl.text.trim();
@@ -110,13 +118,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 CustomInputField(
                   controller: _passCtrl,
                   hint: "Enter your password",
-                  obscure: _obscure,
+                  obscure: _obsecure,
                   suffix: IconButton(
                     onPressed: () => setState(() {
-                      _obscure = !_obscure;
+                      _obsecure = !_obsecure;
                     }),
                     icon: Icon(
-                      _obscure ? Icons.visibility : Icons.visibility_off,
+                      _obsecure ? Icons.visibility : Icons.visibility_off,
                       color: _hint,
                     ),
                   ),
@@ -226,12 +234,19 @@ class _LoginScreenState extends State<LoginScreen> {
         borderRadius: BorderRadius.circular(28),
       ),
       child: TextButton(
-        onPressed: active ? () {} : null,
+        onPressed: active
+            ? () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                );
+              }
+            : null,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
             Text(
-              "Continue",
+              "Login",
               style: TextStyle(
                 color: _titleDark,
                 fontSize: 16,

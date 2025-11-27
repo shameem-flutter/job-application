@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:job_application/screens/homescreen.dart';
 import 'package:job_application/screens/loginscreen.dart';
+import 'package:job_application/screens/mycompany.dart';
+import 'package:job_application/screens/myjob.dart';
+import 'package:job_application/screens/postajob.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,6 +15,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        "/dashboard": (context) => const HomeScreen(),
+        "/post-job": (context) => const PostaJob(),
+        "/my-jobs": (context) => const MyJob(),
+        "/my-company": (context) => const Mycompany(),
+      },
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
       home: const LoginScreen(),

@@ -68,7 +68,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           decoration: _boxDecoration(),
                           child: DropdownButtonFormField(
-                            value: _role,
+                            initialValue: _role,
                             decoration: const InputDecoration(
                               border: InputBorder.none,
                             ),

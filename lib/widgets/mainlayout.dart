@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:job_application/constants/colors.dart';
+import 'package:job_application/widgets/bottomnb.dart';
 
 class MainLayout extends StatefulWidget {
   final Widget child;
@@ -47,6 +49,16 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: primaryColor,
+        child: const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: CurvedBNB(
+        currentIndex: selectedItem,
+        onTap: _onItemselected,
+      ),
       drawerEdgeDragWidth: 60,
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(

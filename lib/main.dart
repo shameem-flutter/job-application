@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         "/dashboard": (context) => const HomeScreen(),
-        "/post-job": (context) => const PostaJob(),
+        "/post-job": (context) => const PostJobScreen(),
         "/my-jobs": (context) => const MyJob(),
         "/my-company": (context) => const Mycompany(),
       },

@@ -43,6 +43,12 @@ class _MainLayoutState extends State<MainLayout> {
       case 3:
         Navigator.pushReplacementNamed(context, "/my-company");
         break;
+      case 4:
+        Navigator.pushReplacementNamed(context, "/messages");
+        break;
+      case 5:
+        Navigator.pushReplacementNamed(context, "/analytics");
+        break;
     }
   }
 
@@ -117,6 +123,7 @@ class _MainLayoutState extends State<MainLayout> {
       drawer: Drawer(
         child: SafeArea(
           child: NavigationDrawer(
+            backgroundColor: primaryColor,
             selectedIndex: selectedItem,
             onDestinationSelected: _onItemselected,
             children: [
@@ -156,6 +163,16 @@ class _MainLayoutState extends State<MainLayout> {
                 icon: Icon(Icons.business_outlined),
                 label: Text("My company"),
                 selectedIcon: Icon(Icons.business),
+              ),
+              NavigationDrawerDestination(
+                icon: Icon(Icons.message_outlined),
+                label: Text("Messages"),
+                selectedIcon: Icon(Icons.message),
+              ),
+              NavigationDrawerDestination(
+                icon: Icon(Icons.analytics_outlined),
+                label: Text("Analytics"),
+                selectedIcon: Icon(Icons.analytics),
               ),
             ],
           ),

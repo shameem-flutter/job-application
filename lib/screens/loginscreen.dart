@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:job_application/candidate/screens/candidate.dart';
 import 'package:job_application/constants/colors.dart';
 import 'package:job_application/screens/homescreen.dart';
 import 'package:job_application/screens/signupscreen.dart';
 import 'package:job_application/widgets/textformfield.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -235,11 +237,22 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       child: TextButton(
         onPressed: active
-            ? () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                );
+            ? () async {
+                final prefs = await SharedPreferences.getInstance();
+                final role = prefs.getString("role");
+                if (role == "company") {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CompanyHomeScreen(),
+                    ),
+                  );
+                } else {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => CandidateHomeScreen()),
+                  );
+                }
               }
             : null,
         child: Row(

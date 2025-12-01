@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:job_application/constants/colors.dart';
 import 'package:job_application/widgets/mainlayout.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class CompanyHomeScreen extends StatefulWidget {
+  const CompanyHomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<CompanyHomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<CompanyHomeScreen> {
   int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -129,17 +130,37 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: SizedBox(
                       height: 250,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 20, right: 16),
+                        padding: const EdgeInsets.only(top: 10, right: 16),
                         child: BarChart(
                           BarChartData(
-                            alignment: BarChartAlignment.spaceAround,
+                            alignment: BarChartAlignment.spaceEvenly,
                             maxY: 200,
-                            barTouchData: BarTouchData(enabled: false),
+                            minY: 0,
+                            gridData: FlGridData(
+                              show: true,
+                              drawVerticalLine: false,
+                              drawHorizontalLine: true,
+                              horizontalInterval: 50,
+                              getDrawingHorizontalLine: (value) {
+                                return FlLine(
+                                  color: Colors.grey.shade200,
+                                  strokeWidth: 1,
+                                );
+                              },
+                            ),
+                            borderData: FlBorderData(show: false),
                             titlesData: FlTitlesData(
                               show: true,
+                              topTitles: AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
+                              ),
+                              rightTitles: AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
+                              ),
                               bottomTitles: AxisTitles(
                                 sideTitles: SideTitles(
                                   showTitles: true,
+                                  reservedSize: 30,
                                   getTitlesWidget: (value, meta) {
                                     const months = [
                                       'Jan',
@@ -149,106 +170,66 @@ class _HomeScreenState extends State<HomeScreen> {
                                       'May',
                                       'Jun',
                                     ];
-                                    return Text(
-                                      months[value.toInt()],
-                                      style: const TextStyle(fontSize: 12),
-                                    );
+                                    if (value.toInt() >= 0 &&
+                                        value.toInt() < months.length) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(top: 8),
+                                        child: Text(
+                                          months[value.toInt()],
+                                          style: TextStyle(
+                                            color: Colors.grey.shade600,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    return const Text('');
                                   },
                                 ),
                               ),
                               leftTitles: AxisTitles(
                                 sideTitles: SideTitles(
                                   showTitles: true,
-                                  reservedSize: 40,
+                                  reservedSize: 44,
+                                  interval: 50,
                                   getTitlesWidget: (value, meta) {
                                     return Text(
                                       value.toInt().toString(),
-                                      style: const TextStyle(fontSize: 12),
+                                      style: TextStyle(
+                                        color: secondaryColor,
+                                        fontSize: 12,
+                                      ),
                                     );
                                   },
                                 ),
                               ),
-                              topTitles: const AxisTitles(
-                                sideTitles: SideTitles(showTitles: false),
-                              ),
-                              rightTitles: const AxisTitles(
-                                sideTitles: SideTitles(showTitles: false),
+                            ),
+                            barTouchData: BarTouchData(
+                              enabled: true,
+                              touchTooltipData: BarTouchTooltipData(
+                                tooltipBorderRadius: BorderRadius.circular(8),
+                                tooltipMargin: 0,
+                                tooltipPadding: const EdgeInsets.all(8),
+                                getTooltipItem:
+                                    (group, groupIndex, rod, rodIndex) {
+                                      return BarTooltipItem(
+                                        '${rod.toY.toInt()}',
+                                        const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      );
+                                    },
                               ),
                             ),
-                            gridData: FlGridData(
-                              show: true,
-                              drawVerticalLine: false,
-                              horizontalInterval: 50,
-                              getDrawingHorizontalLine: (value) {
-                                return FlLine(
-                                  color: Colors.grey.shade300,
-                                  strokeWidth: 1,
-                                  dashArray: [5, 5],
-                                );
-                              },
-                            ),
-                            borderData: FlBorderData(show: false),
                             barGroups: [
-                              BarChartGroupData(
-                                x: 0,
-                                barRods: [
-                                  BarChartRodData(
-                                    toY: 57,
-                                    color: Colors.black,
-                                    width: 40,
-                                  ),
-                                ],
-                              ),
-                              BarChartGroupData(
-                                x: 1,
-                                barRods: [
-                                  BarChartRodData(
-                                    toY: 95,
-                                    color: Colors.black,
-                                    width: 40,
-                                  ),
-                                ],
-                              ),
-                              BarChartGroupData(
-                                x: 2,
-                                barRods: [
-                                  BarChartRodData(
-                                    toY: 140,
-                                    color: Colors.black,
-                                    width: 40,
-                                  ),
-                                ],
-                              ),
-                              BarChartGroupData(
-                                x: 3,
-                                barRods: [
-                                  BarChartRodData(
-                                    toY: 80,
-                                    color: Colors.black,
-                                    width: 40,
-                                  ),
-                                ],
-                              ),
-                              BarChartGroupData(
-                                x: 4,
-                                barRods: [
-                                  BarChartRodData(
-                                    toY: 195,
-                                    color: Colors.black,
-                                    width: 40,
-                                  ),
-                                ],
-                              ),
-                              BarChartGroupData(
-                                x: 5,
-                                barRods: [
-                                  BarChartRodData(
-                                    toY: 175,
-                                    color: Colors.black,
-                                    width: 40,
-                                  ),
-                                ],
-                              ),
+                              makeGroup(0, 57),
+                              makeGroup(1, 95),
+                              makeGroup(2, 140),
+                              makeGroup(3, 80),
+                              makeGroup(4, 195),
+                              makeGroup(5, 175),
                             ],
                           ),
                         ),
@@ -484,4 +465,30 @@ class _ApplicantItem extends StatelessWidget {
       ),
     );
   }
+}
+
+BarChartGroupData makeGroup(int x, double value) {
+  return BarChartGroupData(
+    x: x,
+    barRods: [
+      BarChartRodData(
+        toY: value,
+        gradient: LinearGradient(
+          colors: [secondaryColor, Colors.indigo.shade400],
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+        ),
+        width: 20,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
+        ),
+        backDrawRodData: BackgroundBarChartRodData(
+          show: true,
+          toY: 200,
+          color: Colors.grey.shade100,
+        ),
+      ),
+    ],
+  );
 }

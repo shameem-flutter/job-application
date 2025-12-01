@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:job_application/screens/loginscreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -156,7 +157,20 @@ class _SignupScreenState extends State<SignupScreen> {
                                 borderRadius: BorderRadius.circular(30),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () async {
+                              final prefs =
+                                  await SharedPreferences.getInstance();
+                              String formattedRole = _role.contains("Company")
+                                  ? "company"
+                                  : "candidate";
+                              await prefs.setString("role", formattedRole);
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginScreen(),
+                                ),
+                              );
+                            },
                             child: const Text(
                               "Create Account",
                               style: TextStyle(

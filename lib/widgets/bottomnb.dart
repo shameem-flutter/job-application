@@ -22,7 +22,7 @@ class CurvedBNB extends StatelessWidget {
         children: [
           buildIcon(Icons.home, 0),
           buildIcon(Icons.work_outline, 1),
-          const SizedBox(width: 40), // SPACE for FAB
+          const SizedBox(width: 40),
           buildIcon(Icons.bookmark_outline, 2),
           buildIcon(Icons.person_outline, 3),
         ],

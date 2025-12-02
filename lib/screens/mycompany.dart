@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:job_application/widgets/mainlayout.dart';
 
-class Mycompany extends StatefulWidget {
+class Mycompany extends StatelessWidget {
   const Mycompany({super.key});
 
   @override
-  State<Mycompany> createState() => _MyCompanyState();
-}
-
-class _MyCompanyState extends State<Mycompany> {
-  @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return MainLayout(selectedIndex: 3, child: Column());
   }
 }

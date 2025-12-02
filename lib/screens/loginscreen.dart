@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:job_application/candidate/screens/candidate.dart';
 import 'package:job_application/constants/colors.dart';
-import 'package:job_application/screens/homescreen.dart';
 import 'package:job_application/screens/signupscreen.dart';
 import 'package:job_application/widgets/textformfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -240,18 +239,27 @@ class _LoginScreenState extends State<LoginScreen> {
             ? () async {
                 final prefs = await SharedPreferences.getInstance();
                 final role = prefs.getString("role");
-                if (role == "company") {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CompanyHomeScreen(),
-                    ),
+                if (role == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Please create an account first ")),
                   );
-                } else {
+                  return;
+                }
+                if (role == "company") {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    "/dashboard",
+                    (route) => false,
+                  );
+                } else if (role == "candidate") {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (_) => CandidateHomeScreen()),
                   );
+                } else {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text("Invalid role saved")));
                 }
               }
             : null,

@@ -158,19 +158,37 @@ class _SignupScreenState extends State<SignupScreen> {
                               ),
                             ),
                             onPressed: () async {
+                              final name = _nameCtrl.text.trim();
+                              final email = _emailCtrl.text.trim();
+                              final pass = _passCtrl.text.trim();
+
+                              if (name.isEmpty ||
+                                  email.isEmpty ||
+                                  pass.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Fill all fields"),
+                                  ),
+                                );
+                                return;
+                              }
+
                               final prefs =
                                   await SharedPreferences.getInstance();
                               String formattedRole = _role.contains("Company")
                                   ? "company"
                                   : "candidate";
+
                               await prefs.setString("role", formattedRole);
+
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => LoginScreen(),
+                                  builder: (_) => LoginScreen(),
                                 ),
                               );
                             },
+
                             child: const Text(
                               "Create Account",
                               style: TextStyle(

@@ -16,39 +16,111 @@ class MainLayout extends StatefulWidget {
 }
 
 class _MainLayoutState extends State<MainLayout> {
-  int selectedItem = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedItem = widget.selectedIndex;
-  }
+  int get selectedItem => widget.selectedIndex;
 
   void _onItemselected(int index) {
-    if (index == selectedItem) return;
-    setState(() {
-      selectedItem = index;
-    });
+    if (index == selectedItem) {
+      Navigator.pop(context);
+      return;
+    }
+
     Navigator.pop(context);
     switch (index) {
       case 0:
-        Navigator.pushReplacementNamed(context, "/dashboard");
+        if (ModalRoute.of(context)?.settings.name == "/dashboard") return;
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          "/dashboard",
+          (route) => false,
+        );
         break;
       case 1:
-        Navigator.pushReplacementNamed(context, "/post-job");
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          "/post-job",
+          ModalRoute.withName("/dashboard"),
+        );
         break;
       case 2:
-        Navigator.pushReplacementNamed(context, "/my-jobs");
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          "/my-jobs",
+          ModalRoute.withName("/dashboard"),
+        );
         break;
       case 3:
-        Navigator.pushReplacementNamed(context, "/my-company");
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          "/my-company",
+          ModalRoute.withName("/dashboard"),
+        );
         break;
       case 4:
-        Navigator.pushReplacementNamed(context, "/messages");
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          "/messages",
+          ModalRoute.withName("/dashboard"),
+        );
         break;
       case 5:
-        Navigator.pushReplacementNamed(context, "/analytics");
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          "/analytics",
+          ModalRoute.withName("/dashboard"),
+        );
         break;
+    }
+  }
+
+  void _bottomNavigation(int index) {
+    int newSelectedItem;
+    String route;
+
+    switch (index) {
+      case 0:
+        newSelectedItem = 0;
+        route = "/dashboard";
+        break;
+      case 1:
+        newSelectedItem = 2;
+        route = "/my-jobs";
+        break;
+      case 2:
+        newSelectedItem = 4;
+        route = "/messages";
+        break;
+      case 3:
+        newSelectedItem = 3;
+        route = "/my-company";
+        break;
+      default:
+        return;
+    }
+    if (newSelectedItem == selectedItem) return;
+
+    if (route == "/dashboard") {
+      Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
+    } else {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        route,
+        ModalRoute.withName("/dashboard"),
+      );
+    }
+  }
+
+  int _bottomNavIndex() {
+    switch (selectedItem) {
+      case 0:
+        return 0;
+      case 2:
+        return 1;
+      case 4:
+        return 2;
+      case 3:
+        return 3;
+      default:
+        return 0;
     }
   }
 
@@ -56,14 +128,20 @@ class _MainLayoutState extends State<MainLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            "/post-job",
+            ModalRoute.withName("/dashboard"),
+          );
+        },
         backgroundColor: primaryColor,
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: CurvedBNB(
-        currentIndex: selectedItem,
-        onTap: _onItemselected,
+        currentIndex: _bottomNavIndex(),
+        onTap: _bottomNavigation,
       ),
       drawerEdgeDragWidth: 60,
       backgroundColor: const Color(0xFFF8FAFC),
@@ -162,7 +240,7 @@ class _MainLayoutState extends State<MainLayout> {
               NavigationDrawerDestination(
                 icon: Icon(Icons.business_outlined),
                 label: Text("My company"),
-                selectedIcon: Icon(Icons.business),
+                selectedIcon: Icon(Icons.business_rounded),
               ),
               NavigationDrawerDestination(
                 icon: Icon(Icons.message_outlined),

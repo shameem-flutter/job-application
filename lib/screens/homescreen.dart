@@ -3,15 +3,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:job_application/constants/colors.dart';
 import 'package:job_application/widgets/mainlayout.dart';
 
-class CompanyHomeScreen extends StatefulWidget {
+class CompanyHomeScreen extends StatelessWidget {
   const CompanyHomeScreen({super.key});
 
-  @override
-  State<CompanyHomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<CompanyHomeScreen> {
-  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return MainLayout(

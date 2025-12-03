@@ -54,6 +54,7 @@ class MyJob extends StatelessWidget {
                         vertGap(20),
                         Text('Applicants', style: TextStyle(color: greyColor)),
                         applicantNo(Icons.people_outline, "2"),
+                        elevatedButton("View Pipeline", () {}),
                       ],
                     ),
                   ),
@@ -87,5 +88,13 @@ Widget applicantNo(IconData icon, String number) {
       horiGap(05),
       Text(number, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
     ],
+  );
+}
+
+Widget elevatedButton(String text, VoidCallback onpressed) {
+  return ElevatedButton(
+    onPressed: onpressed,
+    style: ElevatedButton.styleFrom(),
+    child: Text(text),
   );
 }

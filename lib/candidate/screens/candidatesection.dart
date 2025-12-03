@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:job_application/widgets/mainlayout.dart';
 
 class CandidateHomeScreen extends StatefulWidget {
   const CandidateHomeScreen({super.key});
@@ -11,6 +10,6 @@ class CandidateHomeScreen extends StatefulWidget {
 class _CandidateHomeScreenState extends State<CandidateHomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return MainLayout(selectedIndex: 0, child: Column());
+    return Scaffold();
   }
 }

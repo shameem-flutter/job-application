@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:job_application/constants/colors.dart';
+import 'package:job_application/constants/routenames.dart';
 import 'package:job_application/widgets/bottomnb.dart';
 
 class MainLayout extends StatefulWidget {
   final Widget child;
-  final int selectedIndex;
+  final int drawerIndex;
+  final int bottomNavIndex;
   const MainLayout({
     super.key,
     required this.child,
-    required this.selectedIndex,
+    required this.drawerIndex,
+    required this.bottomNavIndex,
   });
 
   @override
@@ -16,112 +19,82 @@ class MainLayout extends StatefulWidget {
 }
 
 class _MainLayoutState extends State<MainLayout> {
-  int get selectedItem => widget.selectedIndex;
+  int get drawerItem => widget.drawerIndex;
+  int get bottomItem => widget.bottomNavIndex;
 
   void _onItemselected(int index) {
-    if (index == selectedItem) {
+    if (index == drawerItem) {
       Navigator.pop(context);
       return;
     }
 
     Navigator.pop(context);
+    late String route;
     switch (index) {
       case 0:
-        if (ModalRoute.of(context)?.settings.name == "/dashboard") return;
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          "/dashboard",
-          (route) => false,
-        );
+        route = RouteNames.dashboard;
         break;
       case 1:
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          "/post-job",
-          ModalRoute.withName("/dashboard"),
-        );
+        route = RouteNames.postJob;
         break;
       case 2:
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          "/my-jobs",
-          ModalRoute.withName("/dashboard"),
-        );
+        route = RouteNames.candidate;
         break;
       case 3:
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          "/my-company",
-          ModalRoute.withName("/dashboard"),
-        );
+        route = RouteNames.analytics;
         break;
-      case 4:
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          "/messages",
-          ModalRoute.withName("/dashboard"),
-        );
-        break;
-      case 5:
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          "/analytics",
-          ModalRoute.withName("/dashboard"),
-        );
-        break;
+      default:
+        return;
+    }
+    final current = ModalRoute.of(context)?.settings.name;
+    if (current == route) return;
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      RouteNames.dashboard,
+      (route) => false,
+    );
+    if (route != RouteNames.dashboard) {
+      Navigator.pushNamed(context, route);
     }
   }
 
   void _bottomNavigation(int index) {
-    int newSelectedItem;
     String route;
 
     switch (index) {
       case 0:
-        newSelectedItem = 0;
-        route = "/dashboard";
+        route = RouteNames.dashboard;
         break;
       case 1:
-        newSelectedItem = 2;
         route = "/my-jobs";
         break;
       case 2:
-        newSelectedItem = 4;
         route = "/messages";
         break;
       case 3:
-        newSelectedItem = 3;
         route = "/my-company";
         break;
       default:
         return;
     }
-    if (newSelectedItem == selectedItem) return;
+    if (ModalRoute.of(context)?.settings.name == route) return;
 
-    if (route == "/dashboard") {
-      Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
-    } else {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        route,
-        ModalRoute.withName("/dashboard"),
-      );
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      RouteNames.dashboard,
+      (route) => false,
+    );
+    if (route != RouteNames.dashboard) {
+      Navigator.pushNamed(context, route);
     }
   }
 
   int _bottomNavIndex() {
-    switch (selectedItem) {
-      case 0:
-        return 0;
-      case 2:
-        return 1;
-      case 4:
-        return 2;
-      case 3:
-        return 3;
-      default:
-        return 0;
+    if (bottomItem == -1) {
+      return -1;
     }
+
+    return bottomItem;
   }
 
   @override
@@ -131,9 +104,11 @@ class _MainLayoutState extends State<MainLayout> {
         onPressed: () {
           Navigator.pushNamedAndRemoveUntil(
             context,
-            "/post-job",
-            ModalRoute.withName("/dashboard"),
+            RouteNames.dashboard,
+            (route) => false,
           );
+
+          Navigator.pushNamed(context, RouteNames.postJob);
         },
         backgroundColor: primaryColor,
         child: const Icon(Icons.add),
@@ -202,7 +177,7 @@ class _MainLayoutState extends State<MainLayout> {
         child: SafeArea(
           child: NavigationDrawer(
             backgroundColor: primaryColor,
-            selectedIndex: selectedItem,
+            selectedIndex: drawerItem,
             onDestinationSelected: _onItemselected,
             children: [
               Padding(
@@ -233,19 +208,9 @@ class _MainLayoutState extends State<MainLayout> {
                 selectedIcon: Icon(Icons.add_circle),
               ),
               NavigationDrawerDestination(
-                icon: Icon(Icons.work_outline),
-                label: Text("My job"),
-                selectedIcon: Icon(Icons.work),
-              ),
-              NavigationDrawerDestination(
-                icon: Icon(Icons.business_outlined),
-                label: Text("My company"),
-                selectedIcon: Icon(Icons.business_rounded),
-              ),
-              NavigationDrawerDestination(
-                icon: Icon(Icons.message_outlined),
-                label: Text("Messages"),
-                selectedIcon: Icon(Icons.message),
+                icon: Icon(Icons.person_2_outlined),
+                label: Text("Candidate"),
+                selectedIcon: Icon(Icons.person),
               ),
               NavigationDrawerDestination(
                 icon: Icon(Icons.analytics_outlined),

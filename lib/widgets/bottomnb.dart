@@ -31,12 +31,17 @@ class CurvedBNB extends StatelessWidget {
   }
 
   Widget buildIcon(IconData icon, int i) {
+    final isDisabled = currentIndex == -1;
     return IconButton(
       onPressed: () => onTap(i),
       icon: Icon(
         icon,
         size: 28,
-        color: currentIndex == i ? primaryColor : Colors.grey.shade500,
+        color: isDisabled
+            ? Colors.grey.shade500
+            : currentIndex == i
+            ? primaryColor
+            : Colors.grey.shade500,
       ),
     );
   }

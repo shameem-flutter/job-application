@@ -6,6 +6,6 @@ class Mycompany extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainLayout(selectedIndex: 3, child: Column());
+    return MainLayout(bottomNavIndex: 3, drawerIndex: -1, child: Column());
   }
 }

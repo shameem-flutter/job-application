@@ -22,7 +22,8 @@ class _PostJobScreenState extends State<PostJobScreen> {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
-      selectedIndex: 1,
+      bottomNavIndex: -1,
+      drawerIndex: 1,
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         child: Column(

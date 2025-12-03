@@ -9,7 +9,8 @@ class MobileDashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
-      selectedIndex: 5,
+      bottomNavIndex: -1,
+      drawerIndex: 3,
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(

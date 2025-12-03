@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:job_application/candidate/screens/candidate.dart';
+import 'package:job_application/candidate/screens/candidatesection.dart';
 import 'package:job_application/constants/colors.dart';
 import 'package:job_application/screens/signupscreen.dart';
 import 'package:job_application/widgets/textformfield.dart';

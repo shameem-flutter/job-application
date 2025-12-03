@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_application/screens/analytics.dart';
+import 'package:job_application/screens/candidate.dart';
 import 'package:job_application/screens/homescreen.dart';
 import 'package:job_application/screens/loginscreen.dart';
 import 'package:job_application/screens/message.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         "/my-company": (context) => const Mycompany(),
         "/messages": (context) => const MobileCombinedChatPage(),
         "/analytics": (context) => const MobileDashboardScreen(),
+        "/candidate": (context) => const CandidateScreen(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),

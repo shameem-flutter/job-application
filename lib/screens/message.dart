@@ -7,7 +7,8 @@ class MobileCombinedChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
-      selectedIndex: 4,
+      bottomNavIndex: 2,
+      drawerIndex: -1,
       child: SafeArea(
         bottom: false,
         child: Padding(

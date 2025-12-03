@@ -9,8 +9,8 @@ class CompanyHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
-      selectedIndex: 0,
-
+      bottomNavIndex: 0,
+      drawerIndex: 0,
       child: Column(
         children: [
           Expanded(

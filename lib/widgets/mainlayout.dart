@@ -156,19 +156,59 @@ class _MainLayoutState extends State<MainLayout> {
           ],
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.chat_bubble_outline, color: Colors.black),
-            onPressed: () {},
-          ),
+          // IconButton(
+          //   icon: const Icon(Icons.chat_bubble_outline, color: Colors.black),
+          //   onPressed: () {},
+          // ),
           IconButton(
             icon: const Icon(Icons.notifications_outlined, color: Colors.black),
             onPressed: () {},
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(horizontal: 12),
-            child: CircleAvatar(
-              backgroundColor: Colors.black,
-              child: Text('a', style: TextStyle(color: Colors.white)),
+            child: PopupMenuButton<int>(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              offset: Offset(0, 50),
+              onSelected: (value) {},
+              elevation: 8,
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  child: Text(
+                    "My Account",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 1,
+                  child: ListTile(
+                    dense: true,
+                    leading: Icon(Icons.person),
+                    title: Text("My Profile"),
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 2,
+                  child: ListTile(
+                    dense: true,
+                    leading: Icon(Icons.settings),
+                    title: Text("Setttings"),
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 3,
+                  child: ListTile(
+                    dense: true,
+                    leading: Icon(Icons.logout, color: redColor),
+                    title: Text("LogOut"),
+                  ),
+                ),
+              ],
+              child: CircleAvatar(
+                backgroundColor: Colors.black,
+                child: Text('a', style: TextStyle(color: Colors.white)),
+              ),
             ),
           ),
         ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:job_application/constants/colors.dart';
 import 'package:job_application/constants/routenames.dart';
+import 'package:job_application/screens/settings.dart';
 import 'package:job_application/widgets/bottomnb.dart';
 
 class MainLayout extends StatefulWidget {
@@ -171,7 +172,14 @@ class _MainLayoutState extends State<MainLayout> {
                 borderRadius: BorderRadius.circular(12),
               ),
               offset: Offset(0, 50),
-              onSelected: (value) {},
+              onSelected: (value) {
+                if (value == 2) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SettingsScreen()),
+                  );
+                }
+              },
               elevation: 8,
               itemBuilder: (context) => [
                 PopupMenuItem(

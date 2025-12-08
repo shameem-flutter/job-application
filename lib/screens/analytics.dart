@@ -1,62 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:job_application/constants/colors.dart';
-import 'package:job_application/widgets/mainlayout.dart';
 
 class MobileDashboardScreen extends StatelessWidget {
   const MobileDashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MainLayout(
-      bottomNavIndex: -1,
-      drawerIndex: 3,
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// Summary Cards Grid
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              children: [
-                summaryCard("Total Job Postings", "12"),
-                summaryCard("Total Applicants", "395"),
-                summaryCard("Appointments", "18"),
-                summaryCard("Total Applications", "892"),
-              ],
-            ),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          /// Summary Cards Grid
+          GridView.count(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: 2,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            children: [
+              summaryCard("Total Job Postings", "12"),
+              summaryCard("Total Applicants", "395"),
+              summaryCard("Appointments", "18"),
+              summaryCard("Total Applications", "892"),
+            ],
+          ),
 
-            const SizedBox(height: 20),
+          const SizedBox(height: 20),
 
-            const Text(
-              "Application Trends",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 4),
-            const Text(
-              "Number of applications received per month (sample data)",
-              style: TextStyle(fontSize: 13, color: Colors.grey),
-            ),
+          const Text(
+            "Application Trends",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 4),
+          const Text(
+            "Number of applications received per month (sample data)",
+            style: TextStyle(fontSize: 13, color: Colors.grey),
+          ),
 
-            const SizedBox(height: 20),
+          const SizedBox(height: 20),
 
-            /// Chart Container
-            Container(
-              height: 300,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: applicationTrendsChart(),
+          /// Chart Container
+          Container(
+            height: 300,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
             ),
-          ],
-        ),
+            child: applicationTrendsChart(),
+          ),
+        ],
       ),
     );
   }

@@ -1,275 +1,262 @@
 import 'package:flutter/material.dart';
 import 'package:job_application/constants/colors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:job_application/constants/navigation.dart';
 import 'package:job_application/constants/routenames.dart';
+
+import 'package:job_application/screens/analytics.dart';
+import 'package:job_application/screens/candidate.dart';
+import 'package:job_application/screens/homescreen.dart';
+import 'package:job_application/screens/message.dart';
+import 'package:job_application/screens/mycompany.dart';
+import 'package:job_application/screens/myjob.dart';
+import 'package:job_application/screens/postajob.dart';
 import 'package:job_application/screens/settings.dart';
 import 'package:job_application/widgets/bottomnb.dart';
 
-class MainLayout extends StatefulWidget {
-  final Widget child;
-  final int drawerIndex;
-  final int bottomNavIndex;
-  const MainLayout({
-    super.key,
-    required this.child,
-    required this.drawerIndex,
-    required this.bottomNavIndex,
-  });
+class MainLayout extends ConsumerStatefulWidget {
+  const MainLayout({super.key});
 
   @override
-  State<MainLayout> createState() => _MainLayoutState();
+  ConsumerState<MainLayout> createState() => _MainLayoutState();
 }
 
-class _MainLayoutState extends State<MainLayout> {
-  int get drawerItem => widget.drawerIndex;
-  int get bottomItem => widget.bottomNavIndex;
+class _MainLayoutState extends ConsumerState<MainLayout> {
+  final PageStorageBucket _bucket = PageStorageBucket();
+  late final List<Widget> _screens = [
+    const CompanyHomeScreen(key: PageStorageKey('dashboard')),
+    const MyJob(key: PageStorageKey('myjobs')),
+    const PostJobScreen(key: PageStorageKey('postjob')),
+    const MobileCombinedChatPage(key: PageStorageKey('messages')),
+    const Mycompany(key: PageStorageKey('company')),
+    const CandidateScreen(key: PageStorageKey('candidate')),
+    const MobileDashboardScreen(key: PageStorageKey('analytics')),
+    const SettingsScreen(key: PageStorageKey('settings')),
+  ];
 
-  void _onItemselected(int index) {
-    if (index == drawerItem) {
-      Navigator.pop(context);
-      return;
-    }
-
+  void _onItemselected(int drawerIndex) {
     Navigator.pop(context);
-    late String route;
-    switch (index) {
+    int screenIndex;
+    switch (drawerIndex) {
       case 0:
-        route = RouteNames.dashboard;
+        screenIndex = 0;
         break;
       case 1:
-        route = RouteNames.postJob;
+        screenIndex = 2;
         break;
       case 2:
-        route = RouteNames.candidate;
+        screenIndex = 5;
         break;
       case 3:
-        route = RouteNames.analytics;
+        screenIndex = 6;
         break;
       default:
-        return;
+        screenIndex = 0;
     }
-    final current = ModalRoute.of(context)?.settings.name;
-    if (current == route) return;
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      RouteNames.dashboard,
-      (route) => false,
-    );
-    if (route != RouteNames.dashboard) {
-      Navigator.pushNamed(context, route);
-    }
+    ref.read(mainNavIndexProvider.notifier).state = screenIndex;
   }
 
+  /// ---- Bottom Nav Handler ----
   void _bottomNavigation(int index) {
-    String route;
-
-    switch (index) {
-      case 0:
-        route = RouteNames.dashboard;
-        break;
-      case 1:
-        route = "/my-jobs";
-        break;
-      case 2:
-        route = "/messages";
-        break;
-      case 3:
-        route = "/my-company";
-        break;
-      default:
-        return;
-    }
-    if (ModalRoute.of(context)?.settings.name == route) return;
-
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      RouteNames.dashboard,
-      (route) => false,
-    );
-    if (route != RouteNames.dashboard) {
-      Navigator.pushNamed(context, route);
-    }
+    ref.read(mainNavIndexProvider.notifier).state = index;
   }
 
-  int _bottomNavIndex() {
-    if (bottomItem == -1) {
-      return -1;
-    }
+  int? _getCurrentDrawerIndex(int screenIndex) {
+    switch (screenIndex) {
+      case 0:
+        return 0;
+      case 2:
+        return 1;
+      case 5:
+        return 2;
+      case 6:
+        return 3;
 
-    return bottomItem;
+      default:
+        return null;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            RouteNames.dashboard,
-            (route) => false,
-          );
+    final navIndex = ref.watch(mainNavIndexProvider);
+    final drawerIndex = _getCurrentDrawerIndex(navIndex);
+    return WillPopScope(
+      onWillPop: () async {
+        final index = ref.read(mainNavIndexProvider);
+        if (index != 0) {
+          ref.read(mainNavIndexProvider.notifier).state = 0;
+          return false;
+        }
+        return true;
+      },
 
-          Navigator.pushNamed(context, RouteNames.postJob);
-        },
-        backgroundColor: primaryColor,
-        child: const Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: CurvedBNB(
-        currentIndex: _bottomNavIndex(),
-        onTap: _bottomNavigation,
-      ),
-      drawerEdgeDragWidth: 60,
-      backgroundColor: const Color(0xFFF8FAFC),
-      appBar: AppBar(
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              icon: Icon(Icons.menu, size: 28),
-            );
-          },
+      child: Scaffold(
+        /// FAB REMOVED
+        floatingActionButton: null,
+        floatingActionButtonLocation: null,
+        bottomNavigationBar: CurvedBNB(
+          currentIndex: navIndex > 4 ? -1 : navIndex,
+          onTap: _bottomNavigation,
         ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Row(
-          children: [
-            Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: const Icon(Icons.dashboard, color: Colors.white, size: 20),
+
+        drawerEdgeDragWidth: 60,
+        backgroundColor: const Color(0xFFF8FAFC),
+
+        appBar: AppBar(
+          leading: Builder(
+            builder: (context) => IconButton(
+              onPressed: () => Scaffold.of(context).openDrawer(),
+              icon: const Icon(Icons.menu, size: 28),
             ),
-            const SizedBox(width: 10),
-            const Text(
-              'upmatch',
-              style: TextStyle(
+          ),
+          backgroundColor: Colors.white,
+          elevation: 0,
+          title: Row(
+            children: [
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: const Icon(
+                  Icons.dashboard,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 10),
+              const Text(
+                'upmatch',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.notifications_outlined,
                 color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              ),
+              onPressed: () {},
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: PopupMenuButton<int>(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                offset: const Offset(0, 50),
+                onSelected: (value) {
+                  if (value == 1) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SettingsScreen()),
+                    );
+                  }
+                },
+                elevation: 8,
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    child: Text(
+                      "My Account",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 0,
+                    child: ListTile(
+                      dense: true,
+                      leading: Icon(Icons.person),
+                      title: Text("My Profile"),
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 1,
+                    child: ListTile(
+                      dense: true,
+                      leading: Icon(Icons.settings),
+                      title: Text("Settings"),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: 2,
+                    child: ListTile(
+                      dense: true,
+                      leading: Icon(Icons.logout, color: redColor),
+                      title: const Text("Logout"),
+                    ),
+                  ),
+                ],
+                child: const CircleAvatar(
+                  backgroundColor: Colors.black,
+                  child: Text('a', style: TextStyle(color: Colors.white)),
+                ),
               ),
             ),
           ],
         ),
-        actions: [
-          // IconButton(
-          //   icon: const Icon(Icons.chat_bubble_outline, color: Colors.black),
-          //   onPressed: () {},
-          // ),
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined, color: Colors.black),
-            onPressed: () {},
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12),
-            child: PopupMenuButton<int>(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              offset: Offset(0, 50),
-              onSelected: (value) {
-                if (value == 2) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SettingsScreen()),
-                  );
-                }
-              },
-              elevation: 8,
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  child: Text(
-                    "My Account",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+
+        drawer: Drawer(
+          child: SafeArea(
+            child: NavigationDrawer(
+              backgroundColor: primaryColor,
+              selectedIndex: drawerIndex,
+              onDestinationSelected: _onItemselected,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 25, 16, 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        "UpMatch",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text("HR Dashboard", style: TextStyle(fontSize: 18)),
+                    ],
                   ),
                 ),
-                PopupMenuItem(
-                  value: 1,
-                  child: ListTile(
-                    dense: true,
-                    leading: Icon(Icons.person),
-                    title: Text("My Profile"),
-                  ),
+
+                const NavigationDrawerDestination(
+                  icon: Icon(Icons.dashboard_outlined),
+                  label: Text("Dashboard"),
+                  selectedIcon: Icon(Icons.dashboard),
                 ),
-                PopupMenuItem(
-                  value: 2,
-                  child: ListTile(
-                    dense: true,
-                    leading: Icon(Icons.settings),
-                    title: Text("Setttings"),
-                  ),
+                const NavigationDrawerDestination(
+                  icon: Icon(Icons.add_circle_outline_outlined),
+                  label: Text("Post a job"),
+                  selectedIcon: Icon(Icons.add_circle),
                 ),
-                PopupMenuItem(
-                  value: 3,
-                  child: ListTile(
-                    dense: true,
-                    leading: Icon(Icons.logout, color: redColor),
-                    title: Text("LogOut"),
-                  ),
+                const NavigationDrawerDestination(
+                  icon: Icon(Icons.person_2_outlined),
+                  label: Text("Candidate"),
+                  selectedIcon: Icon(Icons.person),
+                ),
+                const NavigationDrawerDestination(
+                  icon: Icon(Icons.analytics_outlined),
+                  label: Text("Analytics"),
+                  selectedIcon: Icon(Icons.analytics),
                 ),
               ],
-              child: CircleAvatar(
-                backgroundColor: Colors.black,
-                child: Text('a', style: TextStyle(color: Colors.white)),
-              ),
             ),
           ),
-        ],
-      ),
-      drawer: Drawer(
-        child: SafeArea(
-          child: NavigationDrawer(
-            backgroundColor: primaryColor,
-            selectedIndex: drawerItem,
-            onDestinationSelected: _onItemselected,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 25, 16, 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "UpMatch",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text("HR Dashboard", style: TextStyle(fontSize: 18)),
-                  ],
-                ),
-              ),
+        ),
 
-              NavigationDrawerDestination(
-                icon: Icon(Icons.dashboard_outlined),
-                label: Text("Dashboard"),
-                selectedIcon: Icon(Icons.dashboard),
-              ),
-              NavigationDrawerDestination(
-                icon: Icon(Icons.add_circle_outline_outlined),
-                label: Text("Post a job"),
-                selectedIcon: Icon(Icons.add_circle),
-              ),
-              NavigationDrawerDestination(
-                icon: Icon(Icons.person_2_outlined),
-                label: Text("Candidate"),
-                selectedIcon: Icon(Icons.person),
-              ),
-              NavigationDrawerDestination(
-                icon: Icon(Icons.analytics_outlined),
-                label: Text("Analytics"),
-                selectedIcon: Icon(Icons.analytics),
-              ),
-            ],
-          ),
+        body: PageStorage(
+          bucket: _bucket,
+          child: IndexedStack(index: navIndex, children: _screens),
         ),
       ),
-      body: widget.child,
     );
   }
 }

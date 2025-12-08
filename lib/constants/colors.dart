@@ -5,4 +5,4 @@ const Color primaryColor = Colors.white;
 const Color secondaryColor = Colors.black;
 const Color green = Colors.lightGreenAccent;
 const Color greyColor = Colors.grey;
-const Color redColor = Colors.redAccent;
+const Color redColor = Color(0XFFf5190a);

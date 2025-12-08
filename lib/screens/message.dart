@@ -1,153 +1,148 @@
 import 'package:flutter/material.dart';
-import 'package:job_application/widgets/mainlayout.dart';
 
 class MobileCombinedChatPage extends StatelessWidget {
   const MobileCombinedChatPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MainLayout(
-      bottomNavIndex: 2,
-      drawerIndex: -1,
-      child: SafeArea(
-        bottom: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// HEADER (WhatsApp style)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Chats',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
-                  ),
-                  buildIconButton(Icon(Icons.add_circle_outline), "New", () {}),
-                ],
-              ),
-
-              const SizedBox(height: 10),
-
-              /// SEARCH BAR
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "Search",
-                  prefixIcon: const Icon(Icons.search),
-                  filled: true,
-                  fillColor: Colors.grey.shade200,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 12),
+    return SafeArea(
+      bottom: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /// HEADER (WhatsApp style)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Chats',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
                 ),
+                buildIconButton(Icon(Icons.add_circle_outline), "New", () {}),
+              ],
+            ),
+
+            const SizedBox(height: 10),
+
+            /// SEARCH BAR
+            TextField(
+              decoration: InputDecoration(
+                hintText: "Search",
+                prefixIcon: const Icon(Icons.search),
+                filled: true,
+                fillColor: Colors.grey.shade200,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                contentPadding: const EdgeInsets.symmetric(vertical: 12),
               ),
+            ),
 
-              const SizedBox(height: 12),
+            const SizedBox(height: 12),
 
-              /// CHAT LIST (WhatsApp style)
-              Expanded(
-                child: ListView.separated(
-                  itemCount: _demoChats.length,
-                  separatorBuilder: (_, _) => Divider(
-                    height: 0,
-                    thickness: 0.8,
-                    color: Colors.grey.shade300,
-                  ),
-                  itemBuilder: (context, i) {
-                    final c = _demoChats[i];
-                    return InkWell(
-                      onTap: () {
-                        // Navigate to chat screen
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 4,
-                          vertical: 12,
-                        ),
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 25,
-                              backgroundColor: Colors.blue.shade100,
-                              child: const Icon(
-                                Icons.person,
-                                color: Colors.black87,
-                              ),
+            /// CHAT LIST (WhatsApp style)
+            Expanded(
+              child: ListView.separated(
+                itemCount: _demoChats.length,
+                separatorBuilder: (_, _) => Divider(
+                  height: 0,
+                  thickness: 0.8,
+                  color: Colors.grey.shade300,
+                ),
+                itemBuilder: (context, i) {
+                  final c = _demoChats[i];
+                  return InkWell(
+                    onTap: () {
+                      // Navigate to chat screen
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 4,
+                        vertical: 12,
+                      ),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 25,
+                            backgroundColor: Colors.blue.shade100,
+                            child: const Icon(
+                              Icons.person,
+                              color: Colors.black87,
                             ),
-                            const SizedBox(width: 12),
+                          ),
+                          const SizedBox(width: 12),
 
-                            /// NAME + MESSAGE PREVIEW
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    c.title,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    c.preview,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      color: Colors.grey.shade600,
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            const SizedBox(width: 8),
-
-                            /// TIME + UNREAD BADGE
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                          /// NAME + MESSAGE PREVIEW
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  c.time,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey.shade600,
+                                  c.title,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                const SizedBox(height: 6),
-                                if (c.unread > 0)
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 2,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Text(
-                                      "${c.unread}",
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                      ),
-                                    ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  c.preview,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: Colors.grey.shade600,
+                                    fontSize: 13,
                                   ),
+                                ),
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+
+                          const SizedBox(width: 8),
+
+                          /// TIME + UNREAD BADGE
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                c.time,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              if (c.unread > 0)
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    "${c.unread}",
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

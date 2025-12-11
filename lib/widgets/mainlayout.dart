@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:job_application/constants/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:job_application/constants/navigation.dart';
-import 'package:job_application/constants/routenames.dart';
-
 import 'package:job_application/screens/analytics.dart';
 import 'package:job_application/screens/candidate.dart';
 import 'package:job_application/screens/homescreen.dart';

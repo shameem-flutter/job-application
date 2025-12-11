@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:job_application/candidate/screens/candidatesection.dart';
 import 'package:job_application/constants/colors.dart';
+import 'package:job_application/constants/gap_func.dart';
 import 'package:job_application/screens/signupscreen.dart';
 import 'package:job_application/widgets/textformfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -59,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: Brand(Brands.mini_cooper),
                     ),
-                    const SizedBox(width: 10),
+                    horiGap(10),
                     const Text(
                       "Job Application",
                       style: TextStyle(
@@ -71,14 +72,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
 
-                const SizedBox(height: 6),
+                vertGap(6),
 
                 const Text(
                   "Welcome back!",
                   style: TextStyle(color: Color(0xFF6B7280), fontSize: 15),
                 ),
 
-                const SizedBox(height: 36),
+                vertGap(36),
 
                 const Align(
                   alignment: Alignment.centerLeft,
@@ -92,15 +93,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 5),
-
+                vertGap(05),
                 CustomInputField(
                   controller: _emailCtrl,
                   hint: "name@example.com",
                   keyboardType: TextInputType.emailAddress,
                 ),
 
-                const SizedBox(height: 22),
+                vertGap(22),
 
                 const Align(
                   alignment: Alignment.centerLeft,
@@ -114,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 10),
+                vertGap(10),
 
                 CustomInputField(
                   controller: _passCtrl,
@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 10),
+                vertGap(10),
 
                 Align(
                   alignment: Alignment.centerRight,
@@ -147,12 +147,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                vertGap(20),
 
                 // LOGIN BUTTON
                 _buildContinueButton(),
 
-                const SizedBox(height: 22),
+                vertGap(22),
 
                 // Divider
                 Row(
@@ -170,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
 
-                const SizedBox(height: 18),
+                vertGap(18),
 
                 _SocialButton(
                   label: "Continue with Google",
@@ -178,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: () {},
                 ),
 
-                const SizedBox(height: 12),
+                vertGap(12),
 
                 _SocialButton(
                   label: "Continue with Apple",
@@ -186,7 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: () {},
                 ),
 
-                const SizedBox(height: 28),
+                vertGap(28),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -215,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
 
-                const SizedBox(height: 20),
+                vertGap(20),
               ],
             ),
           ),
@@ -238,7 +238,9 @@ class _LoginScreenState extends State<LoginScreen> {
         onPressed: active
             ? () async {
                 final prefs = await SharedPreferences.getInstance();
-                final role = prefs.getString("role");
+                final email = _emailCtrl.text.trim();
+                final role = prefs.getString("role_$email");
+
                 if (role == null) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Please create an account first ")),
@@ -302,7 +304,7 @@ class _SocialButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             leading,
-            const SizedBox(width: 12),
+            horiGap(12),
             Text(
               label,
               style: const TextStyle(

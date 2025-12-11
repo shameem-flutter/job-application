@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:job_application/constants/gap_func.dart';
 import 'package:job_application/screens/loginscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -179,7 +180,10 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ? "company"
                                   : "candidate";
 
-                              await prefs.setString("role", formattedRole);
+                              await prefs.setString(
+                                "role_$email",
+                                formattedRole,
+                              );
 
                               Navigator.pushReplacement(
                                 context,
@@ -222,7 +226,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           ],
                         ),
 
-                        const SizedBox(height: 30),
+                        vertGap(30),
                       ],
                     ),
                   ),

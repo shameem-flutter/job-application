@@ -75,7 +75,6 @@ class MobileCombinedChatPage extends StatelessWidget {
                           ),
                           const SizedBox(width: 12),
 
-                          /// NAME + MESSAGE PREVIEW
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

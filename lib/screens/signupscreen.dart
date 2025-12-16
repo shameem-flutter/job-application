@@ -20,6 +20,14 @@ class _SignupScreenState extends State<SignupScreen> {
   String _role = "Candidate (Looking for a job)";
 
   @override
+  void dispose() {
+    _nameCtrl.dispose();
+    _emailCtrl.dispose();
+    _passCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isWide = MediaQuery.of(context).size.width > 900;
 
@@ -160,7 +168,9 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                             onPressed: () async {
                               final name = _nameCtrl.text.trim();
-                              final email = _emailCtrl.text.trim();
+                              final email = _emailCtrl.text
+                                  .trim()
+                                  .toLowerCase();
                               final pass = _passCtrl.text.trim();
 
                               if (name.isEmpty ||
@@ -176,6 +186,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                               final prefs =
                                   await SharedPreferences.getInstance();
+
                               String formattedRole = _role.contains("Company")
                                   ? "company"
                                   : "candidate";

@@ -2,11 +2,15 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:job_application/constants/colors.dart';
 
-class CurvedBNB extends StatelessWidget {
+class CandidateBnb extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
 
-  const CurvedBNB({super.key, required this.currentIndex, required this.onTap});
+  const CandidateBnb({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

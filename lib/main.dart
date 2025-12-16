@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:job_application/candidate/screens/candidatesection.dart';
 import 'package:job_application/screens/analytics.dart';
 import 'package:job_application/screens/candidate.dart';
 import 'package:job_application/screens/loginscreen.dart';
@@ -21,17 +22,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        "/dashboard": (context) => const MainLayout(),
+        "/company-dashboard": (context) => const MainLayout(),
+        "/candidate-dashboard": (context) => const CandidateHomeScreen(),
         "/login": (context) => const LoginScreen(),
         "/signup": (context) => const SignupScreen(),
         "/post-job": (context) => const PostJobScreen(),
         "/my-jobs": (context) => const MyJob(),
         "/my-company": (context) => const Mycompany(),
         "/messages": (context) => const MobileCombinedChatPage(),
-        "/analytics": (context) => const MobileDashboardScreen(),
+        "/analytics": (context) => const AnalyticsScreen(),
         "/candidate": (context) => const CandidateScreen(),
       },
-      title: 'Flutter Demo',
+      title: 'Job Application',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
       home: const LoginScreen(),
       debugShowCheckedModeBanner: false,

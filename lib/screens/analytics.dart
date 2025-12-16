@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:job_application/constants/colors.dart';
+import 'package:job_application/constants/gap_func.dart';
 
-class MobileDashboardScreen extends StatelessWidget {
-  const MobileDashboardScreen({super.key});
+class AnalyticsScreen extends StatelessWidget {
+  const AnalyticsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +52,7 @@ class MobileDashboardScreen extends StatelessWidget {
             ),
             child: applicationTrendsChart(),
           ),
+          vertGap(80),
         ],
       ),
     );

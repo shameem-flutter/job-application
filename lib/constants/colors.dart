@@ -6,3 +6,4 @@ const Color secondaryColor = Colors.black;
 const Color green = Colors.lightGreenAccent;
 const Color greyColor = Colors.grey;
 const Color redColor = Color(0XFFf5190a);
+const Color bnb = Color(0XFFcad0db);

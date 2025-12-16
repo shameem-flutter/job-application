@@ -2,35 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:job_application/constants/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:job_application/constants/navigation.dart';
-import 'package:job_application/screens/analytics.dart';
-import 'package:job_application/screens/candidate.dart';
-import 'package:job_application/screens/homescreen.dart';
-import 'package:job_application/screens/message.dart';
-import 'package:job_application/screens/mycompany.dart';
-import 'package:job_application/screens/myjob.dart';
-import 'package:job_application/screens/postajob.dart';
 import 'package:job_application/screens/settings.dart';
 import 'package:job_application/widgets/bottomnb.dart';
 
-class MainLayout extends ConsumerStatefulWidget {
-  const MainLayout({super.key});
+class CandidateMainLayout extends ConsumerStatefulWidget {
+  const CandidateMainLayout({super.key});
 
   @override
-  ConsumerState<MainLayout> createState() => _MainLayoutState();
+  ConsumerState<CandidateMainLayout> createState() => _MainLayoutState();
 }
 
-class _MainLayoutState extends ConsumerState<MainLayout> {
+class _MainLayoutState extends ConsumerState<CandidateMainLayout> {
   final PageStorageBucket _bucket = PageStorageBucket();
-  late final List<Widget> _screens = [
-    const CompanyHomeScreen(key: PageStorageKey('company-dashboard')),
-    const MyJob(key: PageStorageKey('myjobs')),
-    const PostJobScreen(key: PageStorageKey('postjob')),
-    const MobileCombinedChatPage(key: PageStorageKey('messages')),
-    const Mycompany(key: PageStorageKey('company')),
-    const CandidateScreen(key: PageStorageKey('candidate')),
-    const AnalyticsScreen(key: PageStorageKey('analytics')),
-    const SettingsScreen(key: PageStorageKey('settings')),
-  ];
+  late final List<Widget> _screens = [];
 
   void _onItemselected(int drawerIndex) {
     Navigator.pop(context);

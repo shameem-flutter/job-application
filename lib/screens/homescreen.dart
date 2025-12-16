@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:job_application/constants/colors.dart';
+import 'package:job_application/constants/gap_func.dart';
 
 class CompanyHomeScreen extends StatelessWidget {
   const CompanyHomeScreen({super.key});
@@ -226,6 +227,7 @@ class CompanyHomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                vertGap(80),
               ],
             ),
           ),

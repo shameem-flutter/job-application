@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:job_application/candidate/screens/candidatesection.dart';
 import 'package:job_application/constants/colors.dart';
 import 'package:job_application/constants/gap_func.dart';
 import 'package:job_application/screens/signupscreen.dart';
@@ -30,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   bool get isValid {
-    final email = _emailCtrl.text.trim();
+    final email = _emailCtrl.text.trim().toLowerCase();
     final pass = _passCtrl.text.trim();
     final emailOk = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(email);
     return emailOk && pass.isNotEmpty;
@@ -238,8 +237,14 @@ class _LoginScreenState extends State<LoginScreen> {
         onPressed: active
             ? () async {
                 final prefs = await SharedPreferences.getInstance();
-                final email = _emailCtrl.text.trim();
-                final role = prefs.getString("role_$email");
+                debugPrint("ALL KEYS: ${prefs.getKeys()}");
+                final email = _emailCtrl.text.trim().toLowerCase();
+                final roleKey = "role_$email";
+                final role = prefs.getString(roleKey);
+
+                debugPrint("LOGIN EMAIL: $email");
+                debugPrint("ROLE KEY: $roleKey");
+                debugPrint("ROLE VALUE: $role");
 
                 if (role == null) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -250,13 +255,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 if (role == "company") {
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    "/dashboard",
+                    "/company-dashboard",
                     (route) => false,
                   );
                 } else if (role == "candidate") {
-                  Navigator.pushReplacement(
+                  Navigator.pushNamedAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (_) => CandidateHomeScreen()),
+                    "/candidate-dashboard",
+                    (route) => false,
                   );
                 } else {
                   ScaffoldMessenger.of(

@@ -312,7 +312,7 @@ Widget _notificationTile({
         Switch(
           value: value,
           onChanged: onChanged,
-          activeColor: Colors.white,
+          activeThumbColor: Colors.white,
           activeTrackColor: Colors.black,
           inactiveTrackColor: Colors.grey.shade300,
           inactiveThumbColor: Colors.white,
